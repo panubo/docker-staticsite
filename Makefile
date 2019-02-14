@@ -1,5 +1,5 @@
 TAG      := latest
-IMAGE    := panubo/staticsite-deploy
+IMAGE    := panubo/staticsite
 REGISTRY := docker.io
 
 build:
