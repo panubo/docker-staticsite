@@ -20,13 +20,13 @@ function s3sync() {
   fi
 
   # run the command
-  aws s3 sync /var/www/html s3://${AWS_BUCKET_NAME} --delete
+  (set -ex; aws s3 sync /var/www/html s3://${AWS_BUCKET_NAME} --delete)
 }
 
 echo "Running $@..."
 
 if [ "${1}" == "s3sync" ]; then
-  (set +ex; s3sync)
+  s3sync
   echo ">> Sync done"
 else
   exec "$@"
