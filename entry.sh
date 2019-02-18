@@ -26,7 +26,8 @@ function s3sync() {
 echo "Running $@..."
 
 if [ "${1}" == "s3sync" ]; then
-  s3sync
+  (set +ex; s3sync)
+  echo ">> Sync done"
 else
   exec "$@"
 fi
