@@ -11,6 +11,7 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ADD default.conf /etc/nginx/conf.d/default.conf
 
 COPY entry.sh /entry.sh
+COPY s3sync /s3sync
 
 ENTRYPOINT ["/entry.sh"]
 
