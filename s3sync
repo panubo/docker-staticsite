@@ -28,8 +28,8 @@ s3sync() {
   
   # Add --dryrun if DEBUG=true
   if [[ "${DEBUG:-}" == "true" ]]; then
-    CMD=("--dryrun")
-    OVERRIDE_CMD=("--dryrun")
+    CMD+=("--dryrun")
+    OVERRIDE_CMD+=("--dryrun")
   fi
 
   # Add the Cache Control default if set
