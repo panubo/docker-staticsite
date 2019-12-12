@@ -25,8 +25,7 @@ shell:
 	docker run --rm -it $(IMAGE_NAME):$(TAG) bash
 
 push:
-	docker tag $(IMAGE_NAME):$(TAG) $(REGISTRY)/$(IMAGE_NAME):$(TAG)
-	docker push $(REGISTRY)/$(IMAGE_NAME):$(TAG)
+	docker push $(IMAGE_NAME):$(TAG)
 
 clean:
 	docker rmi $(IMAGE_NAME):$(TAG)
