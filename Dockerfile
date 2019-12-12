@@ -1,10 +1,7 @@
-FROM docker.io/alpine:3.9
-
-ENV AWSCLI_VERSION=1.16.104
+FROM docker.io/panubo/awscli:1.16.299
 
 RUN apk update \
-  && apk add --no-cache bash git nginx py-pip \
-  && pip install awscli==${AWSCLI_VERSION} \
+  && apk add --no-cache bash git nginx \
   && mkdir -p /run/nginx /var/www/html
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
