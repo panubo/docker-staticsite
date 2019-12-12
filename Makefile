@@ -2,6 +2,8 @@ TAG      := latest
 IMAGE    := panubo/staticsite
 REGISTRY := docker.io
 
+.PHONY: build build-quick run-nginx run-s3sync shell push clean
+
 build:
 	docker build --pull -t $(IMAGE):$(TAG) .
 
@@ -25,3 +27,6 @@ shell:
 push:
 	docker tag $(IMAGE):$(TAG) $(REGISTRY)/$(IMAGE):$(TAG)
 	docker push $(REGISTRY)/$(IMAGE):$(TAG)
+
+clean:
+	docker rmi $(IMAGE_NAME):$(TAG)
