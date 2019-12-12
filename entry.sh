@@ -4,7 +4,7 @@ set -e
 
 [[ "${DEBUG:-}" == 'true' ]] && set -x
 
-echo "Running " "${@}"
+echo "Running" "${@}"
 
 if [[ "${1}" == "s3sync" ]]; then
   /s3sync
