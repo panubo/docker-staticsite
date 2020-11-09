@@ -18,6 +18,11 @@ All templates must be written to utilise environment variables.
 
 ## Configuration / Environment Options
 
+For `nginx`:
+
+- `NGINX_SERVER_ROOT` - server web root (Default: `/var/www/html`)
+- `NGINX_SERVER_INDEX` - server index page(s) (Default: `index.html index.htm`)
+
 For `s3sync`:
 
 - `AWS_ACCESS_KEY` - AWS Access Key (optional)
