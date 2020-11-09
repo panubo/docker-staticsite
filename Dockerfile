@@ -1,4 +1,4 @@
-FROM docker.io/panubo/awscli:1.18.155
+FROM docker.io/panubo/awscli:1.18.170
 
 ENV GOMPLATE_VERSION=3.8.0
 ENV GOMPLATE_CHECKSUM=13b39916b11638b65f954fab10815e146bad3a615f14ba2025a375faf0d1107e
@@ -18,7 +18,7 @@ RUN apk update \
   && mkdir -p /run/nginx /var/www/html
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-ADD default.conf /etc/nginx/conf.d/default.conf
+COPY default.conf.tmpl /etc/nginx/conf.d/default.conf.tmpl
 
 COPY *.sh /
 

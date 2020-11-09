@@ -25,7 +25,7 @@ s3sync() {
 
   CMD=()
   OVERRIDE_CMD=("--exclude" '*')
-  
+
   # Add --dryrun if DEBUG=true
   if [[ "${DEBUG:-}" == "true" ]]; then
     CMD+=("--dryrun")
@@ -52,7 +52,7 @@ s3sync() {
 
   # Run the main sync (excludes overrides)
   set -x
-  aws s3 sync /var/www/html "s3://${AWS_BUCKET_NAME}" --delete "${CMD[@]}"
+  aws s3 sync ${NGINX_SERVER_ROOT} "s3://${AWS_BUCKET_NAME}" --delete "${CMD[@]}"
   set +x
 
   # Run the override syncs
@@ -61,7 +61,7 @@ s3sync() {
     echo ">> Override sync for: ${override[0]}"
     cache_control="${override[1]:-${CACHE_CONTROL_DEFAULT_OVERRIDE}}"
     set -x
-    aws s3 sync /var/www/html "s3://${AWS_BUCKET_NAME}" --delete "${OVERRIDE_CMD[@]}" --include "${override[0]}" --cache-control "${cache_control}"
+    aws s3 sync ${NGINX_SERVER_ROOT} "s3://${AWS_BUCKET_NAME}" --delete "${OVERRIDE_CMD[@]}" --include "${override[0]}" --cache-control "${cache_control}"
     set +x
   done < <(env | grep "^CACHE_CONTROL_OVERRIDE")
 

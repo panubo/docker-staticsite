@@ -2,8 +2,8 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
-	index index.html index.htm;
-	root /var/www/html;
+	index {{.Env.NGINX_SERVER_INDEX}};
+	root  {{.Env.NGINX_SERVER_ROOT}};
 
 	# You may need this to prevent return 404 recursion.
 	location = /404.html {
