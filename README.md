@@ -10,20 +10,15 @@ as a container for holding a static website. And the resulting image artefact ca
 
 - `nginx` - Serve static files from `/var/www/html` (default)
 - `s3sync` - Synchronize the files in `/var/www/html` with a S3 bucket (uses awscli).
-- `templater` - Write out [gomplate](https://docs.gomplate.ca/) templates. Useful for generating `env.js` configuration for dynamically configurable JS apps.
-
-For `templater` the usage is as follows: `templater <source_template> <output_file>`
-
-All templates must be written to utilise environment variables.
 
 ## Configuration / Environment Options
 
-For `nginx`:
+For `nginx` entrypoint:
 
 - `NGINX_SERVER_ROOT` - server web root (Default: `/var/www/html`)
 - `NGINX_SERVER_INDEX` - server index page(s) (Default: `index.html index.htm`)
 
-For `s3sync`:
+For `s3sync` entrypoint:
 
 - `AWS_ACCESS_KEY` - AWS Access Key (optional)
 - `AWS_SECRET_KEY` - AWS Secret Key (optional)
@@ -31,6 +26,14 @@ For `s3sync`:
 - `CACHE_CONTROL_DEFAULT="public, max-age=3600"` - Default Cache-Control header to set (optional).
 - `CACHE_CONTROL_DEFAULT_OVERRIDE="public, max-age=60, s-maxage=60"` - Alternate default Cache-Control header (optional).
 - `CACHE_CONTROL_OVERRIDE_N` - Override the Cache-Control header for a file.
+
+### Templater
+
+The templater function runs with both entrypoint commands. Useful for generating `env.js` configuration for dynamically configurable JS apps.
+
+Templates must be written in [gomplate](https://docs.gomplate.ca/) template syntax. All templates must be written to utilise environment variables as the context data source.
+
+- `RENDER_TEMPLATE_N` - full path to template file to render. If template ends in `.tmpl` it will be removed from the output file.
 
 ### Cache Control Override
 
