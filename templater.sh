@@ -10,5 +10,9 @@ IFS=$'\n\t'
 # render templates when set
 while read -r line; do
   echo ">> Running templater on ${line#*\=}"
-  render_templates "${line#*\=}"
+  (
+    # relative paths to server root
+    cd "${NGINX_SERVER_ROOT}"
+    render_templates "${line#*\=}"
+  )
 done < <(env | grep "^RENDER_TEMPLATE")
