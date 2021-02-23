@@ -2,7 +2,7 @@ NAME       := staticsite
 TAG        := latest
 IMAGE_NAME := panubo/$(NAME)
 
-.PHONY: build build-quick run-nginx run-s3sync shell push clean
+.PHONY: build build-quick run-nginx run-nginx-spa run-s3sync shell push clean
 
 build:
 	docker build --pull -t $(IMAGE_NAME):$(TAG) .
@@ -15,6 +15,9 @@ build-quick:
 
 run-nginx:
 	docker run --rm -it -P $(IMAGE_NAME):$(TAG)
+
+run-nginx-spa:
+	docker run --rm -it -e NGINX_SINGLE_PAGE_ENABLED=true -P $(IMAGE_NAME):$(TAG)
 
 run-s3sync: .env
 	@printf "AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}\nAWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}\nAWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}\nAWS_SECURITY_TOKEN=${AWS_SESSION_TOKEN}\n" > make.env

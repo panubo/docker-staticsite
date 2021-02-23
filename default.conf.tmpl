@@ -5,6 +5,12 @@ server {
 	index {{.Env.NGINX_SERVER_INDEX}};
 	root  {{.Env.NGINX_SERVER_ROOT}};
 
+	{{ if eq "true" .Env.NGINX_SINGLE_PAGE_ENABLED }}
+	location / {
+		try_files $uri $uri/ /{{.Env.NGINX_SINGLE_PAGE_INDEX}};
+	}
+	{{ end }}
+
 	# You may need this to prevent return 404 recursion.
 	location = /404.html {
 		internal;

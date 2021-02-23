@@ -17,6 +17,8 @@ For `nginx` entrypoint:
 
 - `NGINX_SERVER_ROOT` - server web root (Default: `/var/www/html`)
 - `NGINX_SERVER_INDEX` - server index page(s) (Default: `index.html index.htm`)
+- `NGINX_SINGLE_PAGE_ENABLED` - if set to `true` all requests will be routed through `/$NGINX_SINGLE_PAGE_INDEX`
+- `NGINX_SINGLE_PAGE_INDEX` - When single page mode is enabled, route request to this page (Default: `index.html`)
 
 For `s3sync` entrypoint:
 
