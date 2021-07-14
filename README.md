@@ -28,6 +28,7 @@ For `s3sync` entrypoint:
 - `CACHE_CONTROL_DEFAULT="public, max-age=3600"` - Default Cache-Control header to set (optional).
 - `CACHE_CONTROL_DEFAULT_OVERRIDE="public, max-age=60, s-maxage=60"` - Alternate default Cache-Control header (optional).
 - `CACHE_CONTROL_OVERRIDE_N` - Override the Cache-Control header for a file.
+- `CONTENT_TYPE_OVERRIDE_N` - Override the Cache-Control header for a file.
 
 ### Templater
 
@@ -41,13 +42,23 @@ Templates must be written in [gomplate](https://docs.gomplate.ca/) template synt
 
 `CACHE_CONTROL_OVERRIDE_N` can be defined as `FILE:VALUE` eg. `index.html:public max-age=30`. If `VALUE` is exclude the `CACHE_CONTROL_DEFAULT_OVERRIDE` is used. Multiple overrides can be set by changing `_N`. Can be replaced with any alphanumeric value eg `CACHE_CONTROL_OVERRIDE_INDEX` and `CACHE_CONTROL_OVERRIDE_404`.
 
+**See known issues**
+
+### Control Type Override
+
+`CONTENT_TYPE_OVERRIDE_N` can be defined as `FILE:VALUE` eg. `mydatafile:application/json`. Multiple overrides can be set by changing `_N`. Can be replaced with any alphanumeric value eg `CONTENT_TYPE_OVERRIDE_INDEX` and `CONTENT_TYPE_OVERRIDE_404`.
+
+**See known issues**
+
 ## Status
 
 Experimental.
 
 ### Known issues
 
-* When using s3sync the cache-control will only be updated when the file is also updated.
+* When using s3sync the `cache-control` will only be updated when the file is also updated.
+* When using s3sync the `content-type` will only be updated when the file is also updated.
+* Setting both cache control override and content type override may result in unexpected behavior.
 
 ### TODO
 

@@ -48,7 +48,7 @@ s3sync() {
     IFS=":" read -r -a override <<<"${line#*\=}"
     CMD+=("--exclude" "${override[0]}")
     echo ">> Adding exclude for: ${override[0]}"
-  done < <(env | grep "^CACHE_CONTROL_OVERRIDE")
+  done < <(env | grep -E "^(CACHE_CONTROL_OVERRIDE|CONTENT_TYPE_OVERRIDE)")
 
   # Run the main sync (excludes overrides)
   set -x
@@ -58,12 +58,21 @@ s3sync() {
   # Run the override syncs
   while read -r line; do
     IFS=":" read -r -a override <<<"${line#*\=}"
-    echo ">> Override sync for: ${override[0]}"
+    echo ">> Cache-control override sync for: ${override[0]}"
     cache_control="${override[1]:-${CACHE_CONTROL_DEFAULT_OVERRIDE}}"
     set -x
     aws s3 sync ${NGINX_SERVER_ROOT} "s3://${AWS_BUCKET_NAME}" --delete "${OVERRIDE_CMD[@]}" --include "${override[0]}" --cache-control "${cache_control}"
     set +x
   done < <(env | grep "^CACHE_CONTROL_OVERRIDE")
+
+  while read -r line; do
+    IFS=":" read -r -a override <<<"${line#*\=}"
+    echo ">> Content-type override sync for: ${override[0]}"
+    content_type="${override[1]}"
+    set -x
+    aws s3 sync ${NGINX_SERVER_ROOT} "s3://${AWS_BUCKET_NAME}" --delete "${OVERRIDE_CMD[@]}" --include "${override[0]}" --content-type "${content_type}"
+    set +x
+  done < <(env | grep "^CONTENT_TYPE_OVERRIDE")
 
 }
 
