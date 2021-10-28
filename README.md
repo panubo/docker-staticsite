@@ -50,9 +50,9 @@ Templates must be written in [gomplate](https://docs.gomplate.ca/) template synt
 
 **See known issues**
 
-## Usage Guides
+## Usage Examples
 
-See [docs](./docs/) for usage information.
+See [docs](./docs/) for usage examples.
 
 ## Status
 
