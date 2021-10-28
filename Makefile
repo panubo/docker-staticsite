@@ -31,4 +31,4 @@ push:
 	docker push $(IMAGE_NAME):$(TAG)
 
 clean:
-	docker rmi $(IMAGE_NAME):$(TAG)
+	docker rmi $(IMAGE_NAME):$(TAG) || true
