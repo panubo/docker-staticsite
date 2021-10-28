@@ -56,8 +56,7 @@ See [docs](./docs/) for usage information.
 
 ## Status
 
-This is used for deploying production sites, however it should be considered
-subject to changes from a functionality perspective.
+This is used for deploying production sites, however it should be considered subject to functionality changes.
 
 ### Known issues
 
