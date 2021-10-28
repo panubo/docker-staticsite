@@ -50,15 +50,20 @@ Templates must be written in [gomplate](https://docs.gomplate.ca/) template synt
 
 **See known issues**
 
+## Usage Guides
+
+See [docs](./docs/) for usage information.
+
 ## Status
 
-Experimental.
+This is used for deploying production sites, however it should be considered
+subject to changes from a functionality perspective.
 
 ### Known issues
 
 * When using s3sync the `cache-control` will only be updated when the file is also updated.
 * When using s3sync the `content-type` will only be updated when the file is also updated.
-* Setting both cache control override and content type override may result in unexpected behavior.
+* Setting both cache control override and content type override may result in unexpected behaviour.
 
 ### TODO
 
