@@ -17,20 +17,17 @@ RUN set -x \
 RUN set -x \
   && BASHCONTAINER_VERSION=0.7.1 \
   && BASHCONTAINER_SHA256=e13b1930e75aa4c5526820b5c7ec4f3530bdcfda45752bcf8dfef193d4624977 \
-  && if ! command -v wget > /dev/null; then \
+  && if [ -n "$(readlink /usr/bin/wget)" ]; then \
       fetchDeps="${fetchDeps} wget"; \
      fi \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates curl ${fetchDeps} \
+  && apk add --no-cache ca-certificates bash curl coreutils ${fetchDeps} \
   && cd /tmp \
   && wget -nv https://github.com/panubo/bash-container/releases/download/v${BASHCONTAINER_VERSION}/panubo-functions.tar.gz \
   && echo "${BASHCONTAINER_SHA256}  panubo-functions.tar.gz" > /tmp/SHA256SUM \
   && ( cd /tmp; sha256sum -c SHA256SUM || ( echo "Expected $(sha256sum panubo-functions.tar.gz)"; exit 1; )) \
   && tar -C / -zxf panubo-functions.tar.gz \
   && rm -rf /tmp/* \
-  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false ${fetchDeps} \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
+  && apk del ${fetchDeps} \
   ;
 
 RUN apk update \
