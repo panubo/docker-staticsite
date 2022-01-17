@@ -38,6 +38,13 @@ Templates must be written in [gomplate](https://docs.gomplate.ca/) template synt
 
 - `RENDER_TEMPLATE_N` - full path to template file to render. If template ends in `.tmpl` it will be removed from the output file.
 
+### Procfile
+
+Additional entrypoint pre-commands can be specified in a `Procfile`.
+
+- `PROCFILE` - Procfile location, (Default: `/Procfile`)
+- `RUN_PROCFILE_COMMANDS` - Set to `true` to enable this functionality.
+
 ### Cache Control Override
 
 `CACHE_CONTROL_OVERRIDE_N` can be defined as `FILE:VALUE` eg. `index.html:public max-age=30`. If `VALUE` is exclude the `CACHE_CONTROL_DEFAULT_OVERRIDE` is used. Multiple overrides can be set by changing `_N`. Can be replaced with any alphanumeric value eg `CACHE_CONTROL_OVERRIDE_INDEX` and `CACHE_CONTROL_OVERRIDE_404`.
