@@ -38,6 +38,16 @@ Templates must be written in [gomplate](https://docs.gomplate.ca/) template synt
 
 - `RENDER_TEMPLATE_N` - full path to template file to render. If template ends in `.tmpl` it will be removed from the output file.
 
+### Deployfile
+
+Additional entrypoint pre-commands or post-commands can be specified in a `Deployfile.pre` and/or `Deployfile.post`.
+
+- `DEPLOYFILE_PRE` - Pre Deployfile location, (Default: `/Deployfile.pre`)
+- `DEPLOYFILE_POST` - Post Deployfile location, (Default: `/Deployfile.post`)
+- `RUN_DEPLOYFILE_COMMANDS` - Set to `true` to enable this functionality.
+
+N.B. When running `nginx` command, only the `DEPLOYFILE_PRE` is able to execute.
+
 ### Cache Control Override
 
 `CACHE_CONTROL_OVERRIDE_N` can be defined as `FILE:VALUE` eg. `index.html:public max-age=30`. If `VALUE` is exclude the `CACHE_CONTROL_DEFAULT_OVERRIDE` is used. Multiple overrides can be set by changing `_N`. Can be replaced with any alphanumeric value eg `CACHE_CONTROL_OVERRIDE_INDEX` and `CACHE_CONTROL_OVERRIDE_404`.
