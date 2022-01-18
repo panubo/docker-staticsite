@@ -38,12 +38,15 @@ Templates must be written in [gomplate](https://docs.gomplate.ca/) template synt
 
 - `RENDER_TEMPLATE_N` - full path to template file to render. If template ends in `.tmpl` it will be removed from the output file.
 
-### Procfile
+### Deployfile
 
-Additional entrypoint pre-commands can be specified in a `Procfile`.
+Additional entrypoint pre-commands or post-commands can be specified in a `Deployfile.pre` and/or `Deployfile.post`.
 
-- `PROCFILE` - Procfile location, (Default: `/Procfile`)
-- `RUN_PROCFILE_COMMANDS` - Set to `true` to enable this functionality.
+- `DEPLOYFILE_PRE` - Pre Deployfile location, (Default: `/Deployfile.pre`)
+- `DEPLOYFILE_POST` - Post Deployfile location, (Default: `/Deployfile.post`)
+- `RUN_DEPLOYFILE_COMMANDS` - Set to `true` to enable this functionality.
+
+N.B. When running `nginx` command, only the `DEPLOYFILE_PRE` is able to execute.
 
 ### Cache Control Override
 
