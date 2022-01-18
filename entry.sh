@@ -20,7 +20,7 @@ echo "> Running templater"
 echo "> Entrypoint command:" "${@}"
 
 if [[ -f "${DEPLOYFILE_PRE}" ]] && [[ "${RUN_DEPLOYFILE_COMMANDS:-}" == 'true' ]]; then
-  echo ">> Running all commands in ${DEPLOYFILE_PRE}"
+  echo "> Running all commands in ${DEPLOYFILE_PRE}"
   run_all "${DEPLOYFILE_PRE}"
 fi
 
@@ -28,7 +28,7 @@ if [[ "${1}" == "s3sync" ]]; then
   echo "> Running s3sync"
   /s3sync.sh
   if [[ -f "${DEPLOYFILE_POST}" ]] && [[ "${RUN_DEPLOYFILE_COMMANDS:-}" == 'true' ]]; then
-    echo ">> Running all commands in ${DEPLOYFILE_POST}"
+    echo "> Running all commands in ${DEPLOYFILE_POST}"
     run_all "${DEPLOYFILE_POST}"
   fi
 elif [[ "${1}" == "nginx" ]]; then
