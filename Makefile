@@ -2,12 +2,15 @@ NAME       := staticsite
 TAG        := latest
 IMAGE_NAME := panubo/$(NAME)
 
-.PHONY: build build-quick run-nginx run-nginx-spa run-s3sync shell push clean
+.PHONY: help build build-quick run-nginx run-nginx-spa run-s3sync shell push clean
 
-build:
+help:
+	@printf "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)\n"
+
+build:  ## build image
 	docker build --pull -t $(IMAGE_NAME):$(TAG) .
 
-build-quick:
+build-quick:  ## build quick image
 	docker build -t $(IMAGE_NAME):$(TAG) .
 
 .env:
