@@ -1,7 +1,6 @@
-FROM docker.io/panubo/awscli:1.19.16
+FROM docker.io/panubo/awscli:1.22.85
 
-ENV GOMPLATE_VERSION=3.8.0
-ENV GOMPLATE_CHECKSUM=13b39916b11638b65f954fab10815e146bad3a615f14ba2025a375faf0d1107e
+ENV GOMPLATE_VERSION=3.10.0 GOMPLATE_CHECKSUM=eec0f85433c9c8aad93e8cd84c79d238f436b3e62f35b15471f5929bc741763a
 
 RUN set -x \
   && cd /tmp \
@@ -15,8 +14,8 @@ RUN set -x \
 
 # Install Panubo Bash Container functions
 RUN set -x \
-  && BASHCONTAINER_VERSION=0.7.1 \
-  && BASHCONTAINER_SHA256=e13b1930e75aa4c5526820b5c7ec4f3530bdcfda45752bcf8dfef193d4624977 \
+  && BASHCONTAINER_VERSION=0.7.2 \
+  && BASHCONTAINER_SHA256=87c4b804f0323d8f0856cb4fbf2f7859174765eccc8b0ac2d99b767cecdcf5c6 \
   && if [ -n "$(readlink /usr/bin/wget)" ]; then \
       fetchDeps="${fetchDeps} wget"; \
      fi \
