@@ -31,7 +31,10 @@ RUN set -x \
 
 RUN apk update \
   && apk add --no-cache bash git nginx \
-  && mkdir -p /run/nginx /var/www/html
+  && cd /etc/nginx \
+  && ln -s http.d conf.d \
+  && mkdir -p /run/nginx /var/www/html \
+  ;
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 COPY default.conf.tmpl /etc/nginx/conf.d/default.conf.tmpl
