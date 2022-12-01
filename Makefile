@@ -1,5 +1,5 @@
 NAME       := staticsite
-TAG        := latest
+TAG        := test
 IMAGE_NAME := panubo/$(NAME)
 
 .PHONY: help build build-quick run-nginx run-nginx-spa run-s3sync shell push clean
@@ -35,3 +35,6 @@ push:
 
 clean:
 	docker rmi $(IMAGE_NAME):$(TAG) || true
+
+test:  ## run test suite
+	( cd tests; bats . )
