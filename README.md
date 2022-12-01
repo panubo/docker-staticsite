@@ -70,10 +70,9 @@ This is used for deploying production sites, however it should be considered sub
 
 ### Known issues
 
-* When using s3sync the `cache-control` will only be updated when the file is also updated.
-* When using s3sync the `content-type` will only be updated when the file is also updated.
 * Setting both cache control override and content type override may result in unexpected behaviour.
 
 ### TODO
 
 * Implement similar Cache-Control functionality for Nginx hosted static sites.
+* Get everything to work with a non-root user

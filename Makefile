@@ -37,4 +37,4 @@ clean:
 	docker rmi $(IMAGE_NAME):$(TAG) || true
 
 test:  ## run test suite
-	( cd tests; bats . )
+	( cd tests; bats -j 4 . )
