@@ -1,5 +1,5 @@
 load functions.bash
-load setup.bash
+# load setup.bash
 
 setup_file() {
 

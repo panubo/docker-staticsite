@@ -1,5 +1,5 @@
 load functions.bash
-load setup.bash
+# load setup.bash
 
 setup_file() {
 	container="$(docker run -d -p 80 panubo/staticsite-testsite:1 nginx)"
