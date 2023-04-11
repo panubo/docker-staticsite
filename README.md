@@ -6,6 +6,8 @@ deploying to S3 and templating files.
 This is useful as an intermediate container for holding static website build artefacts. This image can then be used
 as a container for holding a static website. And the resulting image artefact can be used to serve the site, or used to deploy the site to an S3 website bucket, or a bucket backed CloudFront distribution.
 
+This image is available on quay.io `quay.io/panubo/staticsite` and AWS ECR Public `public.ecr.aws/panubo/staticsite`.
+
 ## Entrypoint Commands
 
 - `nginx` - Serve static files from `/var/www/html` (default)
