@@ -38,3 +38,6 @@ clean:
 
 test:  ## run test suite
 	( cd tests; bats -j 4 . )
+
+_ci_test:
+	( cd tests; bats -j 4 . )
