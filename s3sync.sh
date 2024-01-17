@@ -14,7 +14,7 @@ s3sync() {
   # We still need to use `sync` since it supports the `--delete` parameter
   find "${NGINX_SERVER_ROOT}" -type f -exec touch {} \;
 
-  AWS=( "aws" )
+  AWS=( "aws" "--debug" )
   # Support AWS_ENDPOINT_OVERRIDE to allow use with non AWS S3 endpoints
   if [[ -n "${AWS_ENDPOINT_OVERRIDE:-}" ]]; then
     AWS+=( "--endpoint-url" "${AWS_ENDPOINT_OVERRIDE}" )
