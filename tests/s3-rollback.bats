@@ -57,10 +57,11 @@ teardown_file() {
 }
 
 @test "s3-rollback upload v2" {
-	skip
+
 	# Upload v1
 	docker run --rm \
 		-e AWS_ENDPOINT_OVERRIDE=http://${minio_container_ip}:9000 \
+		-e AWS_REGION=us-east-1 \
 		-e AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
 		-e AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY \
 		-e AWS_BUCKET_NAME=test-bucket \
@@ -74,10 +75,11 @@ teardown_file() {
 }
 
 @test "s3-rollback rollback to v1" {
-	skip
+
 	# Upload v1
 	docker run --rm \
 		-e AWS_ENDPOINT_OVERRIDE=http://${minio_container_ip}:9000 \
+		-e AWS_REGION=us-east-1 \
 		-e AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
 		-e AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY \
 		-e AWS_BUCKET_NAME=test-bucket \
