@@ -33,7 +33,7 @@ if [[ "${1}" == "s3sync" ]]; then
   fi
 elif [[ "${1}" == "nginx" ]]; then
   echo "> Running nginx"
-  render_templates /etc/nginx/conf.d/default.conf.tmpl
+  render_templates /etc/nginx/http.d/default.conf.tmpl
   nginx
 else
   if [[ "$1" != "" ]]; then

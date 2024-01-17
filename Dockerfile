@@ -1,21 +1,9 @@
-FROM docker.io/panubo/awscli:1.22.85
+FROM alpine:3.19
 
-ENV GOMPLATE_VERSION=3.10.0 GOMPLATE_CHECKSUM=eec0f85433c9c8aad93e8cd84c79d238f436b3e62f35b15471f5929bc741763a
-
+# Install bash-container functions
 RUN set -x \
-  && cd /tmp \
-  && wget -nv https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-amd64 \
-  && echo "${GOMPLATE_CHECKSUM}  gomplate_linux-amd64" > /tmp/SHA256SUM \
-  && ( cd /tmp; sha256sum -c SHA256SUM || ( echo "Expected $(sha256sum gomplate_linux-amd64)"; exit 1; )) \
-  && chmod +x gomplate_linux-amd64 \
-  && mv gomplate_linux-amd64 /usr/local/bin/gomplate \
-  && rm -rf /tmp/* \
-  ;
-
-# Install Panubo Bash Container functions
-RUN set -x \
-  && BASHCONTAINER_VERSION=0.7.2 \
-  && BASHCONTAINER_SHA256=87c4b804f0323d8f0856cb4fbf2f7859174765eccc8b0ac2d99b767cecdcf5c6 \
+  && BASHCONTAINER_VERSION=0.8.0 \
+  && BASHCONTAINER_SHA256=0ddc93b11fd8d6ac67f6aefbe4ba790550fc98444e051e461330f10371a877f1 \
   && if [ -n "$(readlink /usr/bin/wget)" ]; then \
       fetchDeps="${fetchDeps} wget"; \
      fi \
@@ -24,20 +12,38 @@ RUN set -x \
   && wget -nv https://github.com/panubo/bash-container/releases/download/v${BASHCONTAINER_VERSION}/panubo-functions.tar.gz \
   && echo "${BASHCONTAINER_SHA256}  panubo-functions.tar.gz" > /tmp/SHA256SUM \
   && ( cd /tmp; sha256sum -c SHA256SUM || ( echo "Expected $(sha256sum panubo-functions.tar.gz)"; exit 1; )) \
-  && tar -C / -zxf panubo-functions.tar.gz \
+  && tar --no-same-owner -C / -zxf panubo-functions.tar.gz \
   && rm -rf /tmp/* \
   && apk del ${fetchDeps} \
   ;
 
+# Install gomplate
+RUN set -x \
+  && GOMPLATE_VERSION=v3.11.6 \
+  && GOMPLATE_CHECKSUM_X86_64=7ce8f9f89a0b21fac05b8412af4dd8a06f9e5d8a2df70370549d2dde5f9f0d75 \
+  && GOMPLATE_CHECKSUM_AARCH64=f41b6cfaebd9c744c3091993baf9ca44cd80e07d63143d2e78457a159fc22dc5 \
+  && if [ "$(uname -m)" = "x86_64" ] ; then \
+        GOMPLATE_CHECKSUM="${GOMPLATE_CHECKSUM_X86_64}"; \
+        GOMPLATE_ARCH="amd64"; \
+      elif [ "$(uname -m)" = "aarch64" ]; then \
+        GOMPLATE_CHECKSUM="${GOMPLATE_CHECKSUM_AARCH64}"; \
+        GOMPLATE_ARCH="arm64"; \
+      fi \
+  && curl -sSf -o /tmp/gomplate_linux-${GOMPLATE_ARCH} -L https://github.com/hairyhenderson/gomplate/releases/download/${GOMPLATE_VERSION}/gomplate_linux-${GOMPLATE_ARCH} \
+  && echo "${GOMPLATE_CHECKSUM}  gomplate_linux-${GOMPLATE_ARCH}" > /tmp/SHA256SUM \
+  && ( cd /tmp; sha256sum -c SHA256SUM || ( echo "Expected $(sha256sum gomplate_linux-${GOMPLATE_ARCH})"; exit 1; )) \
+  && install -m 0755 /tmp/gomplate_linux-${GOMPLATE_ARCH} /usr/local/bin/gomplate \
+  && rm -f /tmp/* \
+  ;
+
 RUN apk update \
-  && apk add --no-cache bash git nginx \
+  && apk add --no-cache bash git nginx aws-cli \
   && cd /etc/nginx \
-  && ln -s http.d conf.d \
   && mkdir -p /run/nginx /var/www/html \
   ;
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-COPY default.conf.tmpl /etc/nginx/conf.d/default.conf.tmpl
+COPY default.conf.tmpl /etc/nginx/http.d/default.conf.tmpl
 
 COPY *.sh /
 
