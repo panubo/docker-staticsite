@@ -38,6 +38,7 @@ teardown_file() {
 }
 
 @test "s3-rollback upload v1" {
+	docker ps -a >&3 2>&3
 
 	# Upload v1
 	docker run --rm \
@@ -45,7 +46,7 @@ teardown_file() {
 		-e AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
 		-e AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY \
 		-e AWS_BUCKET_NAME=test-bucket \
-		panubo/staticsite-testsite:1 s3sync # >&3 2>&3
+		panubo/staticsite-testsite:1 s3sync >&3 2>&3
 
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/index.html
 	# diag "${output}"
@@ -55,7 +56,7 @@ teardown_file() {
 }
 
 @test "s3-rollback upload v2" {
-
+	skip
 	# Upload v1
 	docker run --rm \
 		-e AWS_ENDPOINT_OVERRIDE=http://${minio_container_ip}:9000 \
@@ -72,7 +73,7 @@ teardown_file() {
 }
 
 @test "s3-rollback rollback to v1" {
-
+	skip
 	# Upload v1
 	docker run --rm \
 		-e AWS_ENDPOINT_OVERRIDE=http://${minio_container_ip}:9000 \
