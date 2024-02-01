@@ -11,12 +11,15 @@ This image is available on quay.io `quay.io/panubo/staticsite` and AWS ECR Publi
 ## Entrypoint Commands
 
 - `nginx` - Serve static files from `/var/www/html` (default)
-- `s3sync` - Synchronize the files in `/var/www/html` with a S3 bucket (uses awscli).
+- `s3sync` - Synchronize the files in `/var/www/html` with a S3 bucket (uses awscli)
+- `k8s-init` - Copy all files to volume and template files (intended for a Kubernetes initContainer)
+- `k8s-nginx` - Start nginx only (no rendering, intended to run after `k8s-init`)
 
 ## Configuration / Environment Options
 
 For `nginx` entrypoint:
 
+- `PORT` - server port for nginx to listen on (Default: `8080`)
 - `NGINX_SERVER_ROOT` - server web root (Default: `/var/www/html`)
 - `NGINX_SERVER_INDEX` - server index page(s) (Default: `index.html index.htm`)
 - `NGINX_SINGLE_PAGE_ENABLED` - if set to `true` all requests will be routed through `/$NGINX_SINGLE_PAGE_INDEX`
@@ -48,7 +51,10 @@ Additional entrypoint pre-commands or post-commands can be specified in a `Deplo
 - `DEPLOYFILE_POST` - Post Deployfile location, (Default: `/Deployfile.post`)
 - `RUN_DEPLOYFILE_COMMANDS` - Set to `true` to enable this functionality.
 
-N.B. When running `nginx` command, only the `DEPLOYFILE_PRE` is able to execute.
+Notes:
+
+* When running `nginx` command, only the `DEPLOYFILE_PRE` is able to execute.
+* Pre and post Deployfile is disabled for the `k8s-*` entrypoints
 
 ### Cache Control Override
 
@@ -70,6 +76,30 @@ See [docs](./docs/) for usage examples.
 
 This is used for deploying production sites, however it should be considered subject to functionality changes.
 
+## v0.4.0 Upgrade **BREAKING CHANGES**
+
+There are two main breaking changes includes in the v0.4.0 release.
+
+**Run as non-root**
+
+The image is setup to be run as non-root. This requires any content added to the image be owned by the `nginx` user. This can be achieved with one of the following methods.
+
+Using `COPY --chown=nginx:nginx . /var/www/html` (recommended)
+
+Or, using
+
+```
+USER root
+RUN chown -R nginx:nginx /var/www/html
+USER nginx
+```
+
+Alternatively this change can be simply reverted by adding `USER root` to your downstream image.
+
+**Change nginx port to 8080**
+
+Previously nginx listened on port `80` however this is considered a privileged port, the image now defaults to listening on port `8080`. This can be overridden by setting the env var `PORT=80`.
+
 ### Known issues
 
 * Setting both cache control override and content type override may result in unexpected behaviour.
@@ -77,4 +107,3 @@ This is used for deploying production sites, however it should be considered sub
 ### TODO
 
 * Implement similar Cache-Control functionality for Nginx hosted static sites.
-* Get everything to work with a non-root user

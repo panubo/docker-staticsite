@@ -1,3 +1,5 @@
+load test_helpers/bats-support/load
+load test_helpers/bats-assert/load
 load functions.bash
 # load setup.bash
 
@@ -51,8 +53,8 @@ teardown_file() {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/index.html
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "<p>v1</p>" <<<"${output}"
+	assert_success
+	assert_line "<p>v1</p>"
 }
 
 @test "s3-rollback upload v2" {
@@ -69,8 +71,8 @@ teardown_file() {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/index.html
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "<p>v2</p>" <<<"${output}"
+	assert_success
+	assert_line "<p>v2</p>"
 }
 
 @test "s3-rollback rollback to v1" {
@@ -87,6 +89,6 @@ teardown_file() {
 	run curl -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/index.html
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "<p>v1</p>" <<<"${output}"
+	assert_success
+	assert_line "<p>v1</p>"
 }

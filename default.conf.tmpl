@@ -1,6 +1,6 @@
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+	listen {{env.Getenv "PORT" "8080"}} default_server;
+	listen [::]:{{env.Getenv "PORT" "8080"}} default_server;
 
 	index {{.Env.NGINX_SERVER_INDEX}};
 	root  {{.Env.NGINX_SERVER_ROOT}};
