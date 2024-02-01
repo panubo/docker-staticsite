@@ -89,7 +89,7 @@ jobs:
           password: ${{ secrets.PANUBUILD_QUAYIO_TOKEN }}
 
       - name: Setup BATS
-        uses: bats-core/bats-action@v1
+        uses: bats-core/bats-action@1.5.4
         with:
           bats-version: 1.7.0
           # Don't install any extra libraries, these should be installed as git submodules
