@@ -1,5 +1,7 @@
 FROM alpine:3.19
 
+ARG UID=101
+
 # Install bash-container functions
 RUN set -x \
   && BASHCONTAINER_VERSION=0.8.0 \
@@ -36,7 +38,9 @@ RUN set -x \
   && rm -f /tmp/* \
   ;
 
-RUN apk update \
+RUN set -x \
+  && adduser -h /var/lib/nginx -g nginx -s /sbin/nologin -u ${UID} -D nginx \
+  && apk update \
   && apk add --no-cache bash tree git nginx aws-cli \
   && cd /etc/nginx \
   && mkdir -p /run/nginx /var/www/html \
@@ -56,6 +60,7 @@ ENTRYPOINT ["/entry.sh"]
 EXPOSE 8080
 STOPSIGNAL SIGTERM
 
-USER nginx
+# Use the nginx user, set this numerically so Kubernetes runAsNonRoot works
+USER ${UID}
 
 CMD ["nginx"]
