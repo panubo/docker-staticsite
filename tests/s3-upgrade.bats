@@ -1,3 +1,5 @@
+load test_helpers/bats-support/load
+load test_helpers/bats-assert/load
 load functions.bash
 # load setup.bash
 
@@ -52,8 +54,8 @@ teardown_file() {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/special-cache.html
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "Cache-Control: public, max-age=600" <<<"${output}"
+	assert_success
+	assert_line -p 'Cache-Control: public, max-age=600'
 }
 
 # `no-mime-json` is the same file between versions, it does not have a standard extension so automatic mime type detection doesn't work
@@ -63,8 +65,8 @@ teardown_file() {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/no-mime-json
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "Content-Type: binary/octet-stream" <<<"${output}"
+	assert_success
+	assert_line -p 'Content-Type: binary/octet-stream'
 }
 
 # `cached-json` is the same file between versions, it does not have a standard extension so automatic mime type detection doesn't work
@@ -74,9 +76,9 @@ teardown_file() {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/cached-json
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "Cache-Control: public, max-age=3600" <<<"${output}"
-	grep "Content-Type: binary/octet-stream" <<<"${output}"
+	assert_success
+	assert_line -p 'Cache-Control: public, max-age=3600'
+	assert_line -p 'Content-Type: binary/octet-stream'
 }
 
 @test "s3-upgrade upload v2" {
@@ -89,23 +91,23 @@ teardown_file() {
 		panubo/staticsite-testsite:2 s3sync
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
+	assert_success
 }
 
 @test "s3-upgrade check file specific cache after upgrade" {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/special-cache.html
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "Cache-Control: public, max-age=1200" <<<"${output}"
+	assert_success
+	assert_line -p 'Cache-Control: public, max-age=1200'
 }
 
 @test "s3-upgrade check no-mime-json content-type after upgrade" {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/no-mime-json
 	# diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "Content-Type: application/json" <<<"${output}"
+	assert_success
+	assert_line -p 'Content-Type: application/json'
 }
 
 @test "s3-upgrade check cached-json content-type and cache-control after upgrade" {
@@ -113,7 +115,7 @@ teardown_file() {
 	run curl -i -sSf http://127.0.0.1:${minio_container_http_port}/test-bucket/cached-json
 	diag "${output}"
 
-	[[ "${status}" -eq 0 ]]
-	grep "Cache-Control: public, max-age=1200" <<<"${output}"
-	grep "Content-Type: application/json" <<<"${output}"
+	assert_success
+	assert_line -p 'Cache-Control: public, max-age=1200'
+	assert_line -p 'Content-Type: application/json'
 }

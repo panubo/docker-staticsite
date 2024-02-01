@@ -1,10 +1,12 @@
+load test_helpers/bats-support/load
+load test_helpers/bats-assert/load
 load functions.bash
 # load setup.bash
 
 setup_file() {
-	container="$(docker run -d -p 80 panubo/staticsite-testsite:1 nginx)"
+	container="$(docker run -d -p 8080 panubo/staticsite-testsite:1 nginx)"
 	container_ip="$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${container})"
-	container_http_port="$(docker inspect --format '{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' ${container})"
+	container_http_port="$(docker inspect --format '{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' ${container} || { docker logs ${container} >&3 2>&3; return 1; })"
 	( wait_http "http://127.0.0.1:${container_http_port}"; )
 	export container container_ip container_http_port
 }
@@ -17,6 +19,6 @@ teardown_file() {
 	# echo "# curl -sSf http://127.0.0.1:${container_http_port}" >&3
 	run curl -sSf http://127.0.0.1:${container_http_port}
 	# diag "${output}"
-	[[ "${status}" -eq 0 ]]
-	[[ "${lines[0]}" = "<h1>Hello World!</h1>" ]]
+	assert_success
+	assert_line "<h1>Hello World!</h1>"
 }

@@ -11,3 +11,7 @@ ENV \
   CACHE_CONTROL_OVERRIDE_CACHED_JSON="cached-json:public, max-age=1200"
 
 COPY . /var/www/html
+
+USER root
+RUN chown -R nginx:nginx /var/www/html
+USER nginx

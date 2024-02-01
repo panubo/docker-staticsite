@@ -37,9 +37,13 @@ RUN set -x \
   ;
 
 RUN apk update \
-  && apk add --no-cache bash git nginx aws-cli \
+  && apk add --no-cache bash tree git nginx aws-cli \
   && cd /etc/nginx \
   && mkdir -p /run/nginx /var/www/html \
+  && ln -s /dev/stdout /var/log/nginx/access.log \
+  && ln -s /dev/stderr /var/log/nginx/error.log \
+  && chown nginx:nginx /etc/nginx/http.d \
+  && chown nginx:nginx /var/www/html \
   ;
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
@@ -51,5 +55,7 @@ ENTRYPOINT ["/entry.sh"]
 
 EXPOSE 80
 STOPSIGNAL SIGTERM
+
+USER nginx
 
 CMD ["nginx"]
