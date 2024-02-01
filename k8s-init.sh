@@ -20,8 +20,10 @@ mkdir "${K8S_VOLUME_PATH}/content"
 cp -a /etc/nginx/http.d "${K8S_VOLUME_PATH}/config"
 cp -a "${NGINX_SERVER_ROOT}" "${K8S_VOLUME_PATH}/content"
 
-export OLD_NGINX_SERVER_ROOT="${NGINX_SERVER_ROOT}"
-export NGINX_SERVER_ROOT=${K8S_VOLUME_PATH}/content/html
-/templater.sh
+(
+  export OLD_NGINX_SERVER_ROOT="${NGINX_SERVER_ROOT}"
+  export NGINX_SERVER_ROOT=${K8S_VOLUME_PATH}/content/html
+  /templater.sh
+)
 
 render_templates "${K8S_VOLUME_PATH}/config/http.d/default.conf.tmpl"

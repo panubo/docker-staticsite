@@ -16,7 +16,7 @@ teardown_file() {
 	docker volume rm -f "${docker_volume}" || true
 }
 
-@test "k8s-init" {
+@test "k8s-init check copy and render" {
 	# Fix volume permissions to match K8s behaviour
 	docker run --rm -v "${docker_volume}:/volume" busybox install -d -o root -g 2000 -m 2775 /volume
 
@@ -30,10 +30,16 @@ teardown_file() {
 	assert_line '/volume/config/http.d/default.conf'
 	assert_line '/volume/content/html/env-config.js'
 	assert_line '/volume/content/html/env-config2.js'
+}
 
-	# assert_output --regexp '/volume/config/http\.d/default\.conf[^.]'
-	# assert_output --regexp '/volume/content/html/env-config\.js[^.]'
-	# assert_output --regexp '/volume/content/html/env-config2\.js[^.]'
+@test "k8s-init check nginx default.conf" {
+	# Don't need to redo the permissions and k8s-init since no parallelize is set in this file
+
+	# Print the content of nginx default.conf
+	run docker run --rm -v "${docker_volume}:/volume" busybox cat /volume/config/http.d/default.conf
+
+	# diag "${output}"
+	assert_line -p 'root  /var/www/html;'
 }
 
 @test "k8s-nginx" {
