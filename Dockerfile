@@ -17,6 +17,7 @@ RUN set -x \
   && tar --no-same-owner -C / -zxf panubo-functions.tar.gz \
   && rm -rf /tmp/* \
   && apk del ${fetchDeps} \
+  && sed -i -E -e 's/mv "\$\{tempfile\}"/mv -f "${tempfile}"/g' /panubo-functions.sh \
   ;
 
 # Install gomplate
