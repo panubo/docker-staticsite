@@ -5,6 +5,8 @@
 # The /volume mount should then be mounted into the main container as
 # readOnly mounts and using `k8s-nginx` as the command.
 
+K8S_VOLUME_PATH="${K8S_VOLUME_PATH:=/volume}"
+
 source /panubo-functions.sh
 
 set -euo pipefail
@@ -12,16 +14,14 @@ IFS=$'\n\t'
 
 [[ "${DEBUG:-}" == 'true' ]] && set -x
 
-ls -la /
+mkdir "${K8S_VOLUME_PATH}/config"
+mkdir "${K8S_VOLUME_PATH}/content"
 
-mkdir /volume/config
-mkdir /volume/content
-
-cp -a /etc/nginx/http.d /volume/config
-cp -a "${NGINX_SERVER_ROOT}" /volume/content
+cp -a /etc/nginx/http.d "${K8S_VOLUME_PATH}/config"
+cp -a "${NGINX_SERVER_ROOT}" "${K8S_VOLUME_PATH}/content"
 
 export OLD_NGINX_SERVER_ROOT="${NGINX_SERVER_ROOT}"
-export NGINX_SERVER_ROOT=/volume/content/html
+export NGINX_SERVER_ROOT=${K8S_VOLUME_PATH}/content/html
 /templater.sh
 
-render_templates /volume/config/http.d/default.conf.tmpl
+render_templates "${K8S_VOLUME_PATH}/config/http.d/default.conf.tmpl"

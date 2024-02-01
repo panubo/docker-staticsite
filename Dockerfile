@@ -53,7 +53,7 @@ COPY *.sh /
 
 ENTRYPOINT ["/entry.sh"]
 
-EXPOSE 80
+EXPOSE 8080
 STOPSIGNAL SIGTERM
 
 USER nginx

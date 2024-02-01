@@ -10,7 +10,7 @@ ADD . .
 # Build the site using yarn
 RUN yarn install --pure-lockfile --ignore-optional --no-progress
 
-FROM panubo/staticsite:latest
+FROM quay.io/panubo/staticsite:latest
 
 # Copy build artefacts to staticsite image
 COPY --from=build --chown=nginx:nginx /usr/src/app/dist /var/www/html
