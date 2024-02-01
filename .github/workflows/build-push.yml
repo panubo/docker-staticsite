@@ -89,14 +89,9 @@ jobs:
           password: ${{ secrets.PANUBUILD_QUAYIO_TOKEN }}
 
       - name: Setup BATS
-        uses: bats-core/bats-action@1.5.4
+        uses: panubo/setup-bats-action@v2
         with:
           bats-version: 1.7.0
-          # Don't install any extra libraries, these should be installed as git submodules
-          support-install: false
-          assert-install: false
-          detik-install: false
-          file-install: false
 
       - name: Build and export to Docker
         uses: docker/build-push-action@v5
