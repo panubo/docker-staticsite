@@ -56,6 +56,11 @@ Notes:
 * When running `nginx` command, only the `DEPLOYFILE_PRE` is able to execute.
 * Pre and post Deployfile is disabled for the `k8s-*` entrypoints
 
+### Special file names
+
+Apart from the case when the app is configured with `NGINX_SINGLE_PAGE_ENABLED=true` and `NGINX_SINGLE_PAGE_INDEX=spa.html` which would route all unfilfiled requests to the SPA file,
+`404.html` is used as a default 404 handler
+
 ### Cache Control Override
 
 `CACHE_CONTROL_OVERRIDE_N` can be defined as `FILE:VALUE` eg. `index.html:public max-age=30`. If `VALUE` is exclude the `CACHE_CONTROL_DEFAULT_OVERRIDE` is used. Multiple overrides can be set by changing `_N`. Can be replaced with any alphanumeric value eg `CACHE_CONTROL_OVERRIDE_INDEX` and `CACHE_CONTROL_OVERRIDE_404`.
