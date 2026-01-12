@@ -40,4 +40,5 @@ test:  ## run test suite
 	( cd tests; bats -j 4 . )
 
 _ci_test:
-	( cd tests; bats -j 4 . )
+	-mkdir tests/results
+	( cd tests; bats -j 4 -F pretty --report-formatter junit -o results . )

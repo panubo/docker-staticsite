@@ -107,6 +107,13 @@ jobs:
         run: |
           make _ci_test
 
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
+        with:
+          files: |
+            tests/results/*.xml
+
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
