@@ -28,8 +28,10 @@ env:
   GITHUB_ROLE_ARN: arn:aws:iam::461800378586:role/GitHubECRPublic
 
 permissions:
-  id-token: write   # Required for OIDC
-  contents: read    # This is required for actions/checkout
+  id-token: write       # Required for OIDC
+  contents: read        # This is required for actions/checkout
+  checks: write         # Required to publish test results
+  pull-requests: write  # Required to publish test results
 
 jobs:
   build_and_push:
