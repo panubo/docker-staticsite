@@ -8,6 +8,12 @@ as a container for holding a static website. And the resulting image artefact ca
 
 This image is available on quay.io `quay.io/panubo/staticsite` and AWS ECR Public `public.ecr.aws/panubo/staticsite`.
 
+<!-- BEGIN_TOP_PANUBO -->
+> [!IMPORTANT]
+> **Maintained by Panubo** — Cloud Native & SRE Consultants in Sydney.
+> [Work with us →](https://panubo.com.au)
+<!-- END_TOP_PANUBO -->
+
 ## Entrypoint Commands
 
 - `nginx` - Serve static files from `/var/www/html` (default)
@@ -112,3 +118,19 @@ Previously nginx listened on port `80` however this is considered a privileged p
 ### TODO
 
 * Implement similar Cache-Control functionality for Nginx hosted static sites.
+
+<!-- BEGIN_BOTTOM_PANUBO -->
+## About Panubo
+
+This project is maintained by Panubo, a technology consultancy based in Sydney, Australia. We build reliable, scalable systems and help teams master the cloud-native ecosystem.
+
+We are available for hire to help with:
+
+* SRE & Operations: Improving system reliability and incident response.
+* Platform Engineering: Building internal developer platforms that scale.
+* Kubernetes: Cluster design, security auditing, and migrations.
+* DevOps: Streamlining CI/CD pipelines and developer experience.
+* [See our other services](https://panubo.com.au/services)
+
+Need a hand with your infrastructure? [Let’s have a chat](https://panubo.com.au/contact) or email us at team@panubo.com.
+<!-- END_BOTTOM_PANUBO -->
