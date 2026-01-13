@@ -1,7 +1,5 @@
-load test_helpers/bats-support/load
-load test_helpers/bats-assert/load
 load functions.bash
-# load setup.bash
+load setup.bash
 
 setup_file() {
 
@@ -43,7 +41,7 @@ setup_file() {
 }
 
 # setup() {
-	
+
 # }
 
 teardown_file() {

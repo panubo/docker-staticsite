@@ -28,8 +28,10 @@ env:
   GITHUB_ROLE_ARN: arn:aws:iam::461800378586:role/GitHubECRPublic
 
 permissions:
-  id-token: write   # Required for OIDC
-  contents: read    # This is required for actions/checkout
+  id-token: write       # Required for OIDC
+  contents: read        # This is required for actions/checkout
+  checks: write         # Required to publish test results
+  pull-requests: write  # Required to publish test results
 
 jobs:
   build_and_push:
@@ -93,9 +95,7 @@ jobs:
           password: ${{ secrets.PANUBUILD_QUAYIO_TOKEN }}
 
       - name: Setup BATS
-        uses: panubo/setup-bats-action@v2
-        with:
-          bats-version: 1.7.0
+        uses: bats-core/bats-action@3.0.1
 
       - name: Build and export to Docker
         uses: docker/build-push-action@v6
@@ -108,6 +108,13 @@ jobs:
       - name: Test
         run: |
           make _ci_test
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
+        with:
+          files: |
+            tests/results/*.xml
 
       - name: Build and Push
         uses: docker/build-push-action@v6
