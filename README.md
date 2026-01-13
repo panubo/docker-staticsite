@@ -120,17 +120,18 @@ Previously nginx listened on port `80` however this is considered a privileged p
 * Implement similar Cache-Control functionality for Nginx hosted static sites.
 
 <!-- BEGIN_BOTTOM_PANUBO -->
-## About Panubo
-
-This project is maintained by Panubo, a technology consultancy based in Sydney, Australia. We build reliable, scalable systems and help teams master the cloud-native ecosystem.
-
-We are available for hire to help with:
-
-* SRE & Operations: Improving system reliability and incident response.
-* Platform Engineering: Building internal developer platforms that scale.
-* Kubernetes: Cluster design, security auditing, and migrations.
-* DevOps: Streamlining CI/CD pipelines and developer experience.
-* [See our other services](https://panubo.com.au/services)
-
-Need a hand with your infrastructure? [Let’s have a chat](https://panubo.com.au/contact) or email us at team@panubo.com.
+> [!IMPORTANT]
+> ## About Panubo
+>
+> This project is maintained by Panubo, a technology consultancy based in Sydney, Australia. We build reliable, scalable systems and help teams master the cloud-native ecosystem.
+>
+> We are available for hire to help with:
+>
+> * SRE & Operations: Improving system reliability and incident response.
+> * Platform Engineering: Building internal developer platforms that scale.
+> * Kubernetes: Cluster design, security auditing, and migrations.
+> * DevOps: Streamlining CI/CD pipelines and developer experience.
+> * [See our other services](https://panubo.com.au/services)
+>
+> Need a hand with your infrastructure? [Let’s have a chat](https://panubo.com.au/contact) or email us at team@panubo.com.
 <!-- END_BOTTOM_PANUBO -->
