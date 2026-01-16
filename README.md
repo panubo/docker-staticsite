@@ -1,5 +1,8 @@
 # Static Site
 
+[![build and push on main and tags](https://github.com/panubo/docker-staticsite/workflows/build%20and%20push%20on%20main%20and%20tags/badge.svg)](https://github.com/panubo/docker-staticsite/actions)
+[![Status](https://img.shields.io/badge/status-STABLE-green.svg)]()
+
 Minimal Alpine Linux Docker image with `nginx`, `awscli` and `gomplate`. Also included are scripts for
 deploying to S3 and templating files.
 
@@ -77,10 +80,6 @@ Apart from the case when the app is configured with `NGINX_SINGLE_PAGE_ENABLED=t
 
 See [docs](./docs/) for usage examples.
 
-## Status
-
-This is used for deploying production sites, however it should be considered subject to functionality changes.
-
 ## v0.4.0 Upgrade **BREAKING CHANGES**
 
 There are two main breaking changes includes in the v0.4.0 release.
@@ -112,3 +111,7 @@ Previously nginx listened on port `80` however this is considered a privileged p
 ### TODO
 
 * Implement similar Cache-Control functionality for Nginx hosted static sites.
+
+## Status
+
+This is used for deploying production sites.
