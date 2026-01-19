@@ -2,6 +2,8 @@
 
 [![build and push on main and tags](https://github.com/panubo/docker-staticsite/workflows/build%20and%20push%20on%20main%20and%20tags/badge.svg)](https://github.com/panubo/docker-staticsite/actions)
 [![Status](https://img.shields.io/badge/status-STABLE-green.svg)]()
+[![release](https://img.shields.io/github/v/release/panubo/docker-staticsite)](https://github.com/panubo/docker-staticsite/releases/latest)
+[![license](https://img.shields.io/github/license/panubo/docker-staticsite)](LICENSE)
 
 Minimal Alpine Linux Docker image with `nginx`, `awscli` and `gomplate`. Also included are scripts for
 deploying to S3 and templating files.
