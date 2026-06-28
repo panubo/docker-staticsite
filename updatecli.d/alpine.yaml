@@ -1,0 +1,22 @@
+name: "Bump Alpine Docker Image"
+
+sources:
+  alpine:
+    name: "Get latest Alpine 3.x image tag"
+    kind: "dockerimage"
+    spec:
+      image: "alpine"
+      tagfilter: '^3\.\d+$'
+      versionfilter:
+        kind: "semver"
+        pattern: "^3"
+
+targets:
+  alpine:
+    name: "Update alpine tag in Dockerfile"
+    kind: "dockerfile"
+    spec:
+      file: "Dockerfile"
+      instruction:
+        keyword: "FROM"
+        matcher: "alpine"

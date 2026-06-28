@@ -1,0 +1,63 @@
+name: "Bump Gomplate Version and Checksums"
+
+sources:
+  latestVersion:
+    name: "Get latest gomplate release version"
+    kind: "githubrelease"
+    spec:
+      owner: "hairyhenderson"
+      repository: "gomplate"
+      token: '{{ env "GITHUB_TOKEN" }}'
+      username: '{{ env "GITHUB_ACTOR" }}'
+      versionfilter:
+        kind: "latest"
+
+  getChecksumX86_64:
+    name: "Get gomplate amd64 checksum from release assets"
+    kind: "file"
+    spec:
+      file: 'https://github.com/hairyhenderson/gomplate/releases/download/{{ source "latestVersion" }}/checksums-{{ source "latestVersion" }}_sha256.txt'
+      matchpattern: '([a-f0-9]{64})\s+bin/gomplate_linux-amd64'
+    transformers:
+      - findsubmatch:
+          pattern: '([a-f0-9]{64})\s+bin/gomplate_linux-amd64'
+          captureindex: 1
+
+  getChecksumAarch64:
+    name: "Get gomplate arm64 checksum from release assets"
+    kind: "file"
+    spec:
+      file: 'https://github.com/hairyhenderson/gomplate/releases/download/{{ source "latestVersion" }}/checksums-{{ source "latestVersion" }}_sha256.txt'
+      matchpattern: '([a-f0-9]{64})\s+bin/gomplate_linux-arm64'
+    transformers:
+      - findsubmatch:
+          pattern: '([a-f0-9]{64})\s+bin/gomplate_linux-arm64'
+          captureindex: 1
+
+targets:
+  updateGomplateVersion:
+    name: "Update Gomplate Version"
+    kind: "file"
+    sourceid: "latestVersion"
+    spec:
+      file: "Dockerfile"
+      matchpattern: "GOMPLATE_VERSION=v?[0-9.]+"
+      replacepattern: 'GOMPLATE_VERSION={{ source "latestVersion" }}'
+
+  updateChecksumX86_64:
+    name: "Update Gomplate AMD64 Checksum"
+    kind: "file"
+    sourceid: "getChecksumX86_64"
+    spec:
+      file: "Dockerfile"
+      matchpattern: "GOMPLATE_CHECKSUM_X86_64=[a-f0-9]{64}"
+      replacepattern: 'GOMPLATE_CHECKSUM_X86_64={{ source "getChecksumX86_64" }}'
+
+  updateChecksumAarch64:
+    name: "Update Gomplate ARM64 Checksum"
+    kind: "file"
+    sourceid: "getChecksumAarch64"
+    spec:
+      file: "Dockerfile"
+      matchpattern: "GOMPLATE_CHECKSUM_AARCH64=[a-f0-9]{64}"
+      replacepattern: 'GOMPLATE_CHECKSUM_AARCH64={{ source "getChecksumAarch64" }}'
